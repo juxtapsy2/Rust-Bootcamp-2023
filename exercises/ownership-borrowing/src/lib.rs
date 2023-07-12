@@ -1,10 +1,10 @@
 // Exercise 1
 // Make it compile
-fn exercise1() {
+fn exercise1() -> &&String{
     // Use as many approaches as you can to make it work
     let x = String::from("hello, world");
-    let y = x;
-    let z = x;
+    let y = &x;
+    let z = &y;
 }
 
 // Exercise 2
@@ -12,13 +12,14 @@ fn exercise1() {
 // Don't modify code in exercise2 function!
 fn exercise2() {
     let s1 = String::from("hello, world");
-    let s2 = take_ownership(s1);
+    let s2: String = take_ownership(s1);
 
     println!("{}", s2);
 }
 // Only modify the code below!
-fn take_ownership(s: String) {
+fn take_ownership(s: String) -> String {
     println!("{}", s);
+    s
 }
 
 // Exercise 3
