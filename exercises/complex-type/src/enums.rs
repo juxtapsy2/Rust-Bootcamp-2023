@@ -1,22 +1,24 @@
 // Exercise 1
 // Fill in the blank and fix the errors
 // Make it compile
+#[derive(Debug, PartialEq)]
 enum MessageOne {
     Quit,
     Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(i32, i32, i32),
+    Write (String),
+    ChangeColor (i32, i32, i32),
 }
 fn show_message(msg: MessageOne) {
-    println!("{}", msg);
+    println!("{:#?}", msg);
 }
 
 fn exercise1() {
-    let msgs: __ = [
+    let msgs = [
         MessageOne::Quit,
         MessageOne::Move { x: 1, y: 3 },
-        MessageOne::ChangeColor(255, 255, 0),
-    ];
+        MessageOne::Write ("Hi".to_string()),
+        MessageOne::ChangeColor(255, 255, 0)
+        ];
 
     for msg in msgs {
         show_message(msg)
@@ -29,6 +31,10 @@ fn exercise1() {
 // Run tests
 enum Message {
     // TODO: implement the message variant types based on their usage below
+    ChangeColor ((i32, i32, i32)),
+    Quit,
+    Echo (String),
+    Move {x: i32, y: i32},
 }
 
 struct Point {
@@ -42,6 +48,7 @@ struct State {
     quit: bool,
 }
 
+use crate::Message::ChangeColor;
 impl State {
     fn change_color(&mut self, color: (u8, u8, u8)) {
         self.color = color;
@@ -58,10 +65,18 @@ impl State {
     fn move_position(&mut self, p: Point) {
         self.position = p;
     }
-
+    
     fn process(&mut self, message: Message) {
+        let color = (255, 0, 255);
+        let p = Point{x: 10, y: 15};
         // TODO: create a match expression to process the different message variants
         // Remember: When passing a tuple as a function argument, you'll need extra parentheses: fn function((t, u, p, l, e))
+        match message {
+            ChangeColor((255, 255, 255)) => self.change_color(color),
+            Quit => self.quit(),
+            Message::Move(Point{x: 10, y: 15}) => self.move_position(p),
+            _ => return
+        }
     }
 }
 
@@ -69,6 +84,7 @@ impl State {
 // Exercise 3
 // Fix the errors
 // Run tests
+#[derive(Debug, PartialEq)]
 enum Direction {
     North,
     East,
@@ -79,7 +95,10 @@ enum Direction {
 impl Direction {
     fn opposite(&self) -> Direction {
         match self {
-            //TODO
+            North => Direction::South,
+            South => Direction::North,
+            East => Direction::West,
+            West => Direction::East
         }
     }
 }
@@ -97,10 +116,15 @@ enum Operation {
 }
 
 // Perform arithmetic operations
-fn perform_operation(operation: Operation, num1: f64, num2: f64) -> f64 {
+fn perform_operation(operation: Operation, mut num1: f64, mut num2: f64) -> f64 {
+    let mut result: f64 = 0.0;
     match operation {
-        // TODO
+        Add => result = num1 + num2,
+        Subtract => result = num1 - num2,
+        Multiply => result = num1 * num2,
+        Divide => result = num1 / num2,
     }
+    return result;
 }
 
 
@@ -117,7 +141,7 @@ mod tests {
             position: Point { x: 0, y: 0 },
             color: (0, 0, 0),
         };
-        state.process(Message::ChangeColor(255, 0, 255));
+        state.process(Message::ChangeColor((255, 0, 255)));
         state.process(Message::Echo(String::from("hello world")));
         state.process(Message::Move(Point { x: 10, y: 15 }));
         state.process(Message::Quit);
