@@ -1,10 +1,10 @@
 // Exercise 1
 // Make it compile
-fn exercise1() -> &&String{
+fn exercise1() {
     // Use as many approaches as you can to make it work
     let x = String::from("hello, world");
-    let y = &x;
-    let z = &y;
+    let y = x.clone();
+    let z = y;
 }
 
 // Exercise 2
