@@ -97,7 +97,7 @@ fn exercise4() {
     let u2 = User {
         first: String::from("Mary"),
         last: String::from(&u1.last.to_string()),
-        .. u1
+        ..u1
         
     };
 
