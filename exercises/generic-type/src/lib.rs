@@ -1,37 +1,40 @@
 // Exercise 1 
 // Implement struct Point to make it work.
 // Make it compile
-fn exercise1() {
-    let integer = Position { x: 5, y: 10 };
-    let float = Position { x: 1.0, y: 4.0 };
+#[derive(Debug)]
+struct Position<T> {
+    x: T,
+    y: T,
 }
-
+fn exercise1 () {
+    let integer:Position<i32> = Position{ x: 5, y: 10 };
+    let float:Position<f64> = Position{ x: 1.0, y: 4.0 };
+}
 
 
 // Exercise 2
 // Modify this struct to make the code work
 // Make it compile
-struct Point<T> {
+struct Point<T, S> {
     x: T,
-    y: T,
+    y: S,
 }
 
 fn exercise2() {
     // DON'T modify this code.
-    let p = Point{x: 5, y : "hello".to_string()};
+    let p = Point{x: 5, y: "hello".to_string()};
 }
-
 
 
 // Exercise 3
 // Make it compile
 // Add generic for Val to make the code work, DON'T modify the code in `main`.
-struct Val {
-    val: f64,
+struct Val<T> {
+    val: T,
 }
 
-impl Val {
-    fn value(&self) -> &f64 {
+impl<T> Val<T> {
+    fn value(&self) -> &T {
         &self.val
     }
 }
@@ -49,23 +52,44 @@ fn exercise3() {
 // Implementing logic
 // Run tests
 
-fn find_max<T>(collection: &[T]) -> Option<&T> {
-    todo!()
+fn find_max<T: std::cmp::PartialOrd>(collection: &[T]) -> Option<&T> {
+    let mut maxValue = collection.iter().nth(0).clone();
+    for i in 1.. {
+        if i >= collection.len() {
+            break;
+        }
+        if collection.iter().nth(i)> maxValue {
+            maxValue = collection.iter().nth(i).clone();
+        }
+    }
+    maxValue
 }
 
 // Exercise 5 
 // Reverse the elements in a collection
 // Make it compile 
 // Run tests 
-fn reverse_collection<T>(collection: &[T]) {
-    todo!()
+fn reverse_collection<T>(collection: &mut [T]) {
+    let middle = collection.len() / 2;
+    for i in 0..middle {
+        let j = collection.len() - 1 - i;
+        collection.swap(i, j);
+    }
 }
 
 
 // Exercise 6
 // Function to check if a collection contains a specific value
-fn contains_value<T>(collection: &[T], value: &T) -> bool {
-    todo!()
+fn contains_value<T: std::cmp::PartialEq>(collection: &[T], value: &T) -> bool {
+    for i in 0.. {
+        if i >= collection.len() {
+            break;
+        }
+        if collection.iter().nth(i) == Some(value) {
+            return true;
+        }   
+    }
+    return false;
 }
 
 // Unit tests
