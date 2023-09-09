@@ -13,10 +13,22 @@ trait Hello {
 //TODO 
 struct Student {}
 impl Hello for Student {
+    fn say_hi(&self) -> String {
+        String::from("hi")
+    }
+    fn say_something(&self) -> String {
+        String::from("I'm a good student")
+    }
 }
 //TODO
 struct Teacher {}
 impl Hello for Teacher {
+    fn say_hi(&self) -> String {
+        String::from("Hello, I'm your new teacher")
+    }
+    fn say_something(&self) -> String {
+        String::from("I'm not a bad teacher")
+    }
 }
 
 
@@ -24,9 +36,10 @@ impl Hello for Teacher {
 // Make it compile in unit test for exercise 2
 // Hint: use #[derive]  for struct Point 
 // Run tests
-struct Point {
-    x: i32,
-    y: i32,
+#[derive(Debug, PartialEq)]
+struct Point<T> {
+    x: T,
+    y: T,
 }
 
 
@@ -35,7 +48,7 @@ struct Point {
 // Implement `fn sum` with trait bound in two ways.
 // Run tests
 // Hint: Trait Bound
-fn sum<T>(x: T, y: T) -> T {
+fn sum<T> (x: T, y: T) -> T {
     x + y
 }
 
@@ -44,12 +57,12 @@ fn sum<T>(x: T, y: T) -> T {
 // Fix errors and implement
 // Hint: Static Dispatch and Dynamic Dispatch
 // Run tests
-trait Foo {
-    fn method(&self) -> String;
+trait Foo<T> {
+    fn method(&self) -> T;
 }
 
 impl Foo for u8 {
-    fn method(&self) -> String { format!("u8: {}", *self) }
+    fn method(&self) -> T { format!("u8: {}", *self) }
 }
 
 impl Foo for String {
